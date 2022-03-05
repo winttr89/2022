@@ -1,4 +1,4 @@
-woker=$(date +'%d%m_%H%M')
+woker=$(date +'%d%m_')
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 if [ ! -f "${SCRIPT_DIR}/isHaveSetupCoin.txt" ]; then
 	echo "Start setup..."
