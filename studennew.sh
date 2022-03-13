@@ -22,6 +22,6 @@ do
       echo "$vps was found."
     fi
   done  
-  sleep 3m
+  sleep 1m
   x=$(( $x + 1 ))
 done
