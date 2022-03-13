@@ -1,5 +1,4 @@
 #!/bin/bash
-sleep 3m
 x=1
 while [ $x -le 500 ]
 do
