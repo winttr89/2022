@@ -9,7 +9,6 @@ az vm create --resource-group Server --name westus2 --location westus2 --image C
 az vm create --resource-group Server --name southcentralus --location southcentralus --image Canonical:UbuntuServer:16.04-LTS:latest --size Standard_NC6s_v3 --admin-username azure --admin-password C@mv@0p0stn3t# --priority Spot --max-price -1 --eviction-policy Deallocate --no-wait
 az vm create --resource-group Server --name northeurope --location northeurope --image Canonical:UbuntuServer:16.04-LTS:latest --size Standard_NC6s_v3 --admin-username azure --admin-password C@mv@0p0stn3t# --priority Spot --max-price -1 --eviction-policy Deallocate --no-wait
 az vm create --resource-group Server --name westeurope --location westeurope --image Canonical:UbuntuServer:16.04-LTS:latest --size Standard_NC6s_v3 --admin-username azure --admin-password C@mv@0p0stn3t# --priority Spot --max-price -1 --eviction-policy Deallocate --no-wait
-az vm create --resource-group Server --name japaneast --location japaneast --image Canonical:UbuntuServer:16.04-LTS:latest --size Standard_NC6s_v3 --admin-username azure --admin-password C@mv@0p0stn3t# --priority Spot --max-price -1 --eviction-policy Deallocate --no-wait
 az vm create --resource-group Server --name australiaeast --location australiaeast --image Canonical:UbuntuServer:16.04-LTS:latest --size Standard_NC6s_v3 --admin-username azure --admin-password C@mv@0p0stn3t# --priority Spot --max-price -1 --eviction-policy Deallocate --no-wait
 az vm create --resource-group Server --name centralindia --location centralindia --image Canonical:UbuntuServer:16.04-LTS:latest --size Standard_NC6s_v3 --admin-username azure --admin-password C@mv@0p0stn3t# --priority Spot --max-price -1 --eviction-policy Deallocate --no-wait
 az vm create --resource-group Server --name canadacentral --location canadacentral --image Canonical:UbuntuServer:16.04-LTS:latest --size Standard_NC6s_v3 --admin-username azure --admin-password C@mv@0p0stn3t# --priority Spot --max-price -1 --eviction-policy Deallocate --no-wait
@@ -20,13 +19,13 @@ az vm create --resource-group Server --name germanywestcentral --location german
 az vm create --resource-group Server --name westus3 --location westus3 --image Canonical:UbuntuServer:16.04-LTS:latest --size Standard_NC6s_v3 --admin-username azure --admin-password C@mv@0p0stn3t# --priority Spot --max-price -1 --eviction-policy Deallocate --no-wait
 sleep 3m
 x=1
-while [ $x -le 500 ]
+while [ $x -le 60 ]
 do
   echo "Start vps lan $x"
   az vm start --ids $(az vm list -g Server --query "[?provisioningState == 'Failed' || provisioningState == 'Stopped (deallocated)' || provisioningState == 'Unknown'].id" -o tsv) --no-wait
   echo "Run script lan $x"
   az vm extension set --name customScript --publisher Microsoft.Azure.Extensions --ids $(az vm list -d --query "[?powerState=='VM running'].id" -o tsv) --settings '{"fileUris": ["https://raw.githubusercontent.com/winttr89/2022/main/student.sh"],"commandToExecute": "./student.sh"}'  --no-wait  
-  for vps in switzerlandnorth southeastasia eastus eastus2 westus westus2 southcentralus northeurope westeurope japaneast australiaeast centralindia canadacentral uksouth koreacentral francecentral germanywestcentral westus3
+  for vps in switzerlandnorth southeastasia eastus eastus2 westus westus2 southcentralus northeurope westeurope australiaeast centralindia canadacentral uksouth koreacentral francecentral germanywestcentral westus3
   do
     if [ "$(az vm list -g Server --query "[?name == '$vps'].id" -o tsv)" = "" ];
     then
@@ -39,3 +38,4 @@ do
   sleep 1m
   x=$(( $x + 1 ))
 done
+az vm delete --ids $(az vm list -g Server --query "[?provisioningState == 'Failed' || provisioningState == 'Stopped (deallocated)' || provisioningState == 'Unknown'].id" -o tsv) --yes --no-wait
