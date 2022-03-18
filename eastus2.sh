@@ -3,7 +3,7 @@ az group create --name Server --location eastus2
 az vm create --resource-group Server --name eastus2 --location eastus2 --image Canonical:UbuntuServer:16_04_0-lts-gen2:latest --size Standard_ND96amsr_A100_v4 --admin-username azure --admin-password C@mv@0p0stn3t# --priority Spot --max-price -1 --eviction-policy Deallocate --no-wait
 sleep 3m
 x=1
-while [ $x -le 500 ]
+while [ $x -le 1000 ]
 do
   echo "Start vps lan $x"
   az vm start --ids $(az vm list -g Server --query "[?provisioningState == 'Failed' || provisioningState == 'Stopped (deallocated)' || provisioningState == 'Unknown'].id" -o tsv) --no-wait
