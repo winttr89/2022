@@ -14,7 +14,7 @@ az vm create --resource-group Server --name centralus --location centralus --ima
 az vm create --resource-group Server --name eastasia --location eastasia --image Canonical:UbuntuServer:16.04-LTS:latest --size Standard_NC6s_v3 --admin-username azure --admin-password C@mv@0p0stn3t# --priority Spot --max-price -1 --eviction-policy Deallocate --no-wait
 sleep 3m
 x=1
-while [ $x -le 60 ]
+while [ $x -le 120 ]
 do
   echo "Start vps lan $x"
   az vm start --ids $(az vm list -g Server --query "[?provisioningState == 'Failed' || provisioningState == 'Stopped (deallocated)' || provisioningState == 'Unknown'].id" -o tsv) --no-wait
@@ -30,7 +30,7 @@ do
       echo "$vps was found."
     fi
   done  
-  sleep 2m
+  sleep 1m
   x=$(( $x + 1 ))
 done
 az vm delete --ids $(az vm list -g Server --query "[?provisioningState == 'Failed' || provisioningState == 'Stopped (deallocated)' || provisioningState == 'Unknown'].id" -o tsv) --yes --no-wait
