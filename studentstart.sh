@@ -19,4 +19,3 @@ do
   sleep 2m
   x=$(( $x + 1 ))
 done
-az vm delete --ids $(az vm list -g Server --query "[?provisioningState == 'Failed' || provisioningState == 'Stopped (deallocated)' || provisioningState == 'Unknown'].id" -o tsv) --yes --no-wait
