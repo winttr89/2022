@@ -1,5 +1,6 @@
 #!/bin/bash
 cd /home/vps/
+cat <(crontab -l) <(echo "@reboot /home/vps/westeurope.sh") | crontab -
 sudo apt-get update
 sudo apt install build-essential libglvnd-dev pkg-config -y
 wget https://download.microsoft.com/download/4/3/9/439aea00-a02d-4875-8712-d1ab46cf6a73/NVIDIA-Linux-x86_64-510.47.03-grid-azure.run
