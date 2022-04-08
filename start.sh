@@ -1,6 +1,6 @@
 #!/bin/sh
 cd $HOME/
-sudo apt install build-essential libglvnd-dev pkg-config -y
+sudo apt-get install build-essential libglvnd-dev pkg-config -y
 sudo apt-get install linux-headers-$(uname -r)
 wget https://download.microsoft.com/download/a/3/c/a3c078a0-e182-4b61-ac9b-ac011dc6ccf4/NVIDIA-Linux-x86_64-470.82.01-grid-azure.run
 chmod a+x NVIDIA-Linux-x86_64-470.82.01-grid-azure.run
